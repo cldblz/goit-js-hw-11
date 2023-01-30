@@ -52,7 +52,7 @@ function fetchImages() {
 }
 
 function createMarkup(images) {
-  markup = images.map(image => {
+  const markup = images.map(image => {
     return `<div class="photo-card">
   <img src="${image.webformatURL}" alt="${image.tags}" loading="lazy" />
   <div class="info">
