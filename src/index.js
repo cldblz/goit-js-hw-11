@@ -11,9 +11,11 @@ const galleryRef = document.querySelector(".gallery")
 const imagesService = new ImagesService();
 let lightbox = {}
 
+const onScrollEnd = debounce(chattyOnScrollEnd, 300)
+
 searchForm.addEventListener("submit", onSearch)
 // loadMoreBtn.addEventListener('click', fetchImages);
-window.addEventListener("scroll", debounce(onScrollEnd, 300))
+window.addEventListener("scroll", onScrollEnd)
 
 function onSearch(e) {
   e.preventDefault()
@@ -30,7 +32,7 @@ function onSearch(e) {
   fetchImages();
 }
 
-function onScrollEnd() {
+function chattyOnScrollEnd() {
   if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight) {
     fetchImages()
   }
@@ -71,6 +73,7 @@ function fetchImages() {
     if (imgQuantity.length >= images.totalHits) {
       Notify.info("We're sorry, but you've reached the end of search results.");
       // loadMoreBtn.classList.add("is-hidden")
+      window.removeEventListener("scroll", onScrollEnd)
     }
   });
 }
