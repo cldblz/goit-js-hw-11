@@ -6,16 +6,17 @@ const BASE_URL = 'https://pixabay.com';
 export default class ImagesApiService {
   constructor() {
     this.searchQuery = '';
-    this.page = 1;
+    this.page = 0;
   }
 
     async fetchImages() {
-        try {
+      try {
+            this.incrementPage();
+
             const url = `${BASE_URL}/api/?key=${API_KEY}&q=${this.searchQuery}&image_type=photo&orientation=horizontal&safesearch=true&page=${this.page}&per_page=40`
 
             const response = await axios.get(url);
             const images = await response.data
-            this.incrementPage();
             return images
         } catch (error) {
             console.log(error);
@@ -27,7 +28,7 @@ export default class ImagesApiService {
   }
 
   resetPage() {
-    this.page = 1;
+    this.page = 0;
   }
 
   get query() {

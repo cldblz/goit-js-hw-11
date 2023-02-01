@@ -15,10 +15,11 @@ const onScrollEnd = debounce(chattyOnScrollEnd, 300)
 
 searchForm.addEventListener("submit", onSearch)
 // loadMoreBtn.addEventListener('click', fetchImages);
-window.addEventListener("scroll", onScrollEnd)
 
 function onSearch(e) {
   e.preventDefault()
+
+  window.addEventListener("scroll", onScrollEnd)
 
   imagesService.query = input.value;
 
@@ -51,14 +52,14 @@ function fetchImages() {
 
     // loadMoreBtn.classList.remove("is-hidden")
 
-    if (imagesService.page === 2) {
+    if (imagesService.page === 1) {
       Notify.success(`Hooray! We found ${images.totalHits} images.`);
       lightbox = new SimpleLightbox('.gallery a', {
         captions: true, captionSelector: 'img', captionType: 'attr', captionsData: "alt", captionDelay: 250
       });
     }
 
-    if (imagesService.page > 2) {
+    if (imagesService.page > 1) {
       lightbox.refresh()
 
       const { height: cardHeight } = document.querySelector(".gallery").firstElementChild.getBoundingClientRect();
