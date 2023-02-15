@@ -10,7 +10,7 @@ const galleryRef = document.querySelector(".gallery")
 // const loadMoreBtn = document.querySelector(".load-more")
 const imagesService = new ImagesService();
 let lightbox = {}
-
+let isEventListenerActive = false
 const onScrollEnd = debounce(chattyOnScrollEnd, 300)
 
 searchForm.addEventListener("submit", onSearch)
@@ -19,7 +19,10 @@ searchForm.addEventListener("submit", onSearch)
 function onSearch(e) {
   e.preventDefault()
 
-  window.addEventListener("scroll", onScrollEnd)
+  if (!isEventListenerActive) {
+    window.addEventListener("scroll", onScrollEnd)
+    isEventListenerActive = true
+  }
 
   imagesService.query = input.value;
 
@@ -75,6 +78,7 @@ function fetchImages() {
       Notify.info("We're sorry, but you've reached the end of search results.");
       // loadMoreBtn.classList.add("is-hidden")
       window.removeEventListener("scroll", onScrollEnd)
+      isEventListenerActive = false
     }
   });
 }
